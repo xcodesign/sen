@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Form HM - Nisa</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#4800b2",
+                    "surface-container-high": "#e8e8e8",
+                    "on-secondary-container": "#006f64",
+                    "surface-tint": "#6d23f9",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-low": "#f3f3f3",
+                    "primary-fixed-dim": "#cfbdff",
+                    "outline": "#7a7488",
+                    "on-surface": "#1a1c1c",
+                    "error": "#ba1a1a",
+                    "on-primary-fixed-variant": "#5300cd",
+                    "on-tertiary-container": "#ffb5bf",
+                    "on-error": "#ffffff",
+                    "inverse-surface": "#2f3131",
+                    "outline-variant": "#cbc3d9",
+                    "inverse-primary": "#cfbdff",
+                    "surface-container": "#eeeeee",
+                    "tertiary-fixed-dim": "#ffb2bd",
+                    "primary-container": "#6200ee",
+                    "secondary-fixed-dim": "#17deca",
+                    "on-primary-container": "#d0beff",
+                    "secondary-container": "#4af8e3",
+                    "primary-fixed": "#e8ddff",
+                    "tertiary-fixed": "#ffd9dd",
+                    "on-secondary-fixed": "#00201c",
+                    "surface-container-highest": "#e2e2e2",
+                    "on-primary-fixed": "#22005d",
+                    "surface-dim": "#dadada",
+                    "surface": "#f9f9f9",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed": "#4ffbe6",
+                    "on-tertiary-fixed": "#400013",
+                    "error-container": "#ffdad6",
+                    "on-error-container": "#93000a",
+                    "inverse-on-surface": "#f1f1f1",
+                    "tertiary-container": "#a90041",
+                    "secondary": "#006a60",
+                    "surface-variant": "#e2e2e2",
+                    "surface-bright": "#f9f9f9",
+                    "on-surface-variant": "#494456",
+                    "tertiary": "#7e002e",
+                    "on-tertiary-fixed-variant": "#900036",
+                    "on-background": "#1a1c1c",
+                    "on-secondary-fixed-variant": "#005048",
+                    "background": "#f9f9f9"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Plus Jakarta Sans"],
+                    "label": ["Plus Jakarta Sans"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .headline-lg { font-size: 2rem; line-height: 1.2; font-weight: 700; }
+        .label-sm { font-size: 0.6875rem; font-weight: 600; }
+        
+        /* Custom Input Styling from Design System */
+        .ethereal-input {
+            border: none;
+            border-bottom: 2px solid #e8e8e8;
+            background: transparent;
+            padding: 0.75rem 0;
+            border-radius: 0;
+            transition: border-color 0.3s ease;
+        }
+        .ethereal-input:focus {
+            outline: none;
+            border-bottom-color: #4800b2;
+            box-shadow: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-slate-900/80 backdrop-blur-xl flex justify-between items-center px-6 h-16 w-full">
+<div class="flex items-center gap-4">
+<button class="hover:opacity-80 transition-opacity active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined text-slate-500">arrow_back</span>
+</button>
+<h1 class="font-['Plus_Jakarta_Sans'] headline-lg tracking-tighter text-violet-700 dark:text-violet-300">Nisa</h1>
+</div>
+<div class="flex items-center gap-2">
+<button class="hover:opacity-80 transition-opacity active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined text-slate-500">more_vert</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-24 px-6 max-w-md mx-auto">
+<section class="mb-8">
+<h2 class="text-3xl font-extrabold tracking-tight text-on-surface mb-2">Form HM</h2>
+<p class="text-on-surface-variant/70 body-lg">Submit your daily equipment performance records with precision.</p>
+</section>
+<!-- Form Layout: Tonal Architecture -->
+<div class="space-y-10">
+<!-- Group 1: Time & Identity -->
+<div class="space-y-6">
+<div class="flex flex-col">
+<label class="label-sm uppercase tracking-widest text-on-surface-variant mb-1">Tanggal</label>
+<input class="ethereal-input text-lg font-medium" type="date" value="2023-10-24"/>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<div class="flex flex-col">
+<label class="label-sm uppercase tracking-widest text-on-surface-variant mb-1">Shift</label>
+<select class="ethereal-input text-lg font-medium bg-transparent"><option>Malam</option><option>Siang</option></select>
+</div>
+<div class="flex flex-col">
+<label class="label-sm uppercase tracking-widest text-on-surface-variant mb-1">Kategori</label>
+<select class="ethereal-input text-lg font-medium bg-transparent"><option>Barging</option><option>Langsir</option><option>Triming</option><option>General</option></select>
+</div>
+</div>
+</div>
+<!-- Asymmetric Bento-style Card for Key Stats -->
+<div class="bg-surface-container-low rounded-[2rem] p-6 space-y-8"><div class="flex flex-col mb-8">
+<label class="label-sm uppercase tracking-widest text-on-surface-variant mb-1">User</label>
+<select class="ethereal-input text-lg font-medium bg-transparent">
+<option>BBA</option>
+<option>BC</option>
+<option>SEN</option>
+<option>DTJ</option>
+</select>
+</div>
+<div class="flex flex-col">
+<label class="label-sm uppercase tracking-widest text-on-surface-variant mb-1">Pekerjaan</label>
+<input class="ethereal-input text-lg font-medium placeholder:opacity-30" placeholder="e.g. Hauling Activity" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-8">
+<div class="flex flex-col">
+<label class="label-sm uppercase tracking-widest text-on-surface-variant mb-1">Code Unit</label>
+<select class="ethereal-input text-lg font-bold bg-transparent">
+<option>SWA-101</option>
+<option>SWA-102</option>
+<option>SBC-103</option>
+<option>SPC-104</option>
+</select>
+</div>
+<div class="flex flex-col">
+<label class="label-sm uppercase tracking-widest text-on-surface-variant mb-1">Nama</label>
+<select class="ethereal-input text-lg font-medium bg-transparent">
+<option>Dede Hermawan</option>
+<option>Suntoko</option>
+<option>Hengky</option>
+</select>
+</div>
+</div>
+</div>
+<!-- HM Readings: High Contrast Section -->
+<div class="space-y-6">
+<div class="grid grid-cols-2 gap-6">
+<div class="bg-surface-container-lowest p-5 rounded-2xl shadow-[0px_20px_40px_rgba(26,28,28,0.02)]">
+<label class="label-sm uppercase tracking-widest text-primary mb-2 block">HM Awal</label>
+<input class="w-full bg-transparent text-2xl font-bold border-none p-0 focus:ring-0" id="hm-awal" placeholder="0.0" step="0.1" type="number"/>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-2xl shadow-[0px_20px_40px_rgba(26,28,28,0.02)]">
+<label class="label-sm uppercase tracking-widest text-primary mb-2 block">HM Akhir</label>
+<input class="w-full bg-transparent text-2xl font-bold border-none p-0 focus:ring-0" id="hm-akhir" oninput="this.setCustomValidity(parseFloat(this.value) &lt;= parseFloat(document.getElementById('hm-awal').value) ? 'HM Akhir must be greater than HM Awal' : '')" placeholder="0.0" step="0.1" type="number"/>
+</div>
+</div>
+<div class="flex flex-col">
+<label class="label-sm uppercase tracking-widest text-on-surface-variant mb-1">Fuel (Liters)</label>
+<input class="ethereal-input text-lg font-medium placeholder:opacity-30" placeholder="Total fuel consumed" type="number"/>
+</div>
+</div>
+<!-- Media Section -->
+<div class="space-y-4">
+<label class="label-sm uppercase tracking-widest text-on-surface-variant">Foto P2H</label>
+<div class="relative group h-48 w-full rounded-[2rem] overflow-hidden bg-surface-container-highest flex items-center justify-center border-2 border-dashed border-outline-variant/30">
+<div class="text-center z-10">
+<span class="material-symbols-outlined text-primary text-4xl mb-2">add_a_photo</span>
+<p class="label-sm uppercase tracking-widest text-on-surface-variant">Capture Equipment Condition</p>
+</div>
+<img alt="Equipment inspection" class="absolute inset-0 w-full h-full object-cover opacity-20 grayscale" data-alt="Close up of heavy machinery engine parts with industrial lighting and metallic textures in a professional workshop" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNKrUI-tFq___WsBox12XQ1ulvtS8KhE5GTf8JOtaiyPFRKvHxY4RH5TRtPpbjCXaZ8nG3Y49JCJfACS7bQo_GIKcgyBTYj7AOeiLOQ6-g0MwW3FRGImQTcaOYjWm1HUKiC8vbGws1TJijOzX_K0MCWXSm799VU_YFsx8y1u3L6s7eCHj-Fyr2juhUfuD6yDow7t0Td5tXoTM5tBTLlOKXhQLjVz0YdHs5c3iCgH9TrIUEKXBZh9EYh8BDMYHBG7uI6tY6O2Hb7K5D"/>
+</div>
+</div>
+<!-- User Verification -->
+<div class="flex items-center gap-4 p-4 bg-secondary-container/20 rounded-full">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-secondary-container">person</span>
+</div>
+<div>
+<p class="label-sm uppercase tracking-widest text-on-secondary-container">Logged in as</p>
+<p class="font-bold text-on-surface">Alex Thompson</p>
+</div>
+</div>
+<!-- Primary CTA -->
+<button class="w-full h-16 rounded-full bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold text-lg shadow-xl shadow-primary/20 active:scale-95 transition-all duration-300">
+                Submit Form HM
+            </button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-8 pt-4 bg-surface/80 dark:bg-slate-900/80 backdrop-blur-xl">
+<div class="fixed bottom-6 left-6 right-6 rounded-[24px] bg-surface/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-[0px_20px_40px_rgba(26,28,28,0.04)] flex justify-around items-center h-16">
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 p-2 hover:text-violet-600 dark:hover:text-violet-300 active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-['Plus_Jakarta_Sans'] label-sm uppercase tracking-widest">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-[#4af8e3] text-[#1a1c1c] rounded-full px-5 py-2 transition-all active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">edit_note</span>
+<span class="font-['Plus_Jakarta_Sans'] label-sm uppercase tracking-widest">Forms</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 p-2 hover:text-violet-600 dark:hover:text-violet-300 active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-['Plus_Jakarta_Sans'] label-sm uppercase tracking-widest">Records</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 p-2 hover:text-violet-600 dark:hover:text-violet-300 active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-['Plus_Jakarta_Sans'] label-sm uppercase tracking-widest">Profile</span>
+</a>
+</div>
+</nav>
+</body></html>
