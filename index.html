@@ -298,83 +298,69 @@
     });
 
     form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        // Reset Alert
-        alertBox.classList.add('hidden');
-        let isValid = true;
-        let errorMessage = "";
+    e.preventDefault();
 
-        // 1. Check empty fields
-        const inputs = form.querySelectorAll('.required-field');
-        inputs.forEach(input => {
-            if (!input.value || input.value.trim() === "") {
-                isValid = false;
-                input.parentElement.classList.add('border-error');
-            } else {
-                input.parentElement.classList.remove('border-error');
-            }
+    alertBox.classList.add('hidden');
+    let isValid = true;
+    let errorMessage = "";
+
+    // Validasi required
+    const inputs = form.querySelectorAll('.required-field');
+    inputs.forEach(input => {
+        if (!input.value || input.value.trim() === "") {
+            isValid = false;
+            input.parentElement.classList.add('border-error');
+        } else {
+            input.parentElement.classList.remove('border-error');
+        }
+    });
+
+    // Validasi HM
+    if (isValid) {
+        const valAwal = parseFloat(hmAwal.value);
+        const valAkhir = parseFloat(hmAkhir.value);
+
+        if (valAkhir <= valAwal) {
+            isValid = false;
+            errorMessage = "HM Akhir harus lebih besar dari HM Awal.";
+            hmAkhir.parentElement.classList.add('border-error');
+        }
+    }
+
+    if (!isValid) {
+        alertMsg.innerText = errorMessage || "Semua field wajib diisi.";
+        alertBox.classList.remove('hidden');
+        return;
+    }
+
+    setLoading(true);
+
+    try {
+        const formData = new FormData(form);
+
+        const response = await fetch("https://n8n.srv920832.hstgr.cloud/webhook/b75d8120-459a-4261-8432-f597e01dfa13", {
+            method: "POST",
+            body: formData
         });
 
-        if (!isValid) {
-            errorMessage = "All fields are required. Please check your entries.";
-        } else {
-            // 2. HM Validation
-            const valAwal = parseFloat(hmAwal.value);
-            const valAkhir = parseFloat(hmAkhir.value);
-
-            if (valAkhir <= valAwal) {
-                isValid = false;
-                errorMessage = "HM Akhir must be greater than HM Awal.";
-                hmAkhir.parentElement.classList.add('border-error');
-            } else {
-                hmAkhir.parentElement.classList.remove('border-error');
-            }
+        // cek response tanpa paksa json
+        if (!response.ok) {
+            throw new Error("Gagal kirim data");
         }
 
-        if (!isValid) {
-            alertMsg.innerText = errorMessage;
-            alertBox.classList.remove('hidden');
-            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-            return;
-        }
+        alert("Berhasil dikirim ke n8n 🚀");
 
-        // Mock Submission (n8n Integration)
-        setLoading(true);
+        form.reset();
+        imagePreview.classList.add('hidden');
+        uploadPlaceholder.classList.remove('hidden');
 
-        try {
-            // Simulated network delay
-            try {
-    const formData = new FormData(form);
-
-    const response = await fetch("https://n8n.srv920832.hstgr.cloud/webhook/b75d8120-459a-4261-8432-f597e01dfa13", {
-        method: "POST",
-        body: formData
-    });
-
-    const result = await response.json();
-
-    alert('Success! Data terkirim ke n8n');
-    form.reset();
-
-    imagePreview.classList.add('hidden');
-    uploadPlaceholder.classList.remove('hidden');
-
-} catch (error) {
-    alertMsg.innerText = "Gagal kirim ke server.";
-    alertBox.classList.remove('hidden');
-}
-              
-            form.reset();
-            imagePreview.classList.add('hidden');
-            uploadPlaceholder.classList.remove('hidden');
-        } catch (error) {
-            alertMsg.innerText = "Connection error. Please try again.";
-            alertBox.classList.remove('hidden');
-        } finally {
-            setLoading(false);
-        }
-    });
+    } catch (error) {
+        alertMsg.innerText = "Gagal kirim ke server";
+        alertBox.classList.remove('hidden');
+    } finally {
+        setLoading(false);
+    }
+});
 
     function setLoading(isLoading) {
         if (isLoading) {
