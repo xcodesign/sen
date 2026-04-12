@@ -344,11 +344,27 @@
 
         try {
             // Simulated network delay
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            
-            // Mocking success
-            console.log("Form Data Sent to n8n:", new FormData(form));
-            alert('Success! Form submitted successfully.');
+            try {
+    const formData = new FormData(form);
+
+    const response = await fetch("https://n8n.srv920832.hstgr.cloud/webhook/b75d8120-459a-4261-8432-f597e01dfa13", {
+        method: "POST",
+        body: formData
+    });
+
+    const result = await response.json();
+
+    alert('Success! Data terkirim ke n8n');
+    form.reset();
+
+    imagePreview.classList.add('hidden');
+    uploadPlaceholder.classList.remove('hidden');
+
+} catch (error) {
+    alertMsg.innerText = "Gagal kirim ke server.";
+    alertBox.classList.remove('hidden');
+}
+              
             form.reset();
             imagePreview.classList.add('hidden');
             uploadPlaceholder.classList.remove('hidden');
