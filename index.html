@@ -7,7 +7,6 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
       tailwind.config = {
         darkMode: "class",
@@ -85,7 +84,6 @@
         .headline-lg { font-size: 2rem; line-height: 1.2; font-weight: 700; }
         .label-sm { font-size: 0.6875rem; font-weight: 600; }
         
-        /* Custom Input Styling from Design System */
         .ethereal-input {
             border: none;
             border-bottom: 2px solid #e8e8e8;
@@ -93,30 +91,38 @@
             padding: 0.75rem 0;
             border-radius: 0;
             transition: border-color 0.3s ease;
+            width: 100%;
         }
         .ethereal-input:focus {
             outline: none;
             border-bottom-color: #4800b2;
             box-shadow: none;
         }
+        .loading-spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid #fff;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-  </style>
 </head>
-<body class="bg-surface text-on-surface min-h-screen pb-32">
+<body class="bg-surface text-on-surface min-h-screen pb-40">
 <!-- TopAppBar -->
-<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-slate-900/80 backdrop-blur-xl flex justify-between items-center px-6 h-16 w-full">
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-slate-900/80 backdrop-blur-xl flex justify-between items-center px-6 h-16">
 <div class="flex items-center gap-4">
-<button class="hover:opacity-80 transition-opacity active:scale-95 transition-transform duration-200">
+<button class="hover:opacity-80 transition-opacity active:scale-95 duration-200">
 <span class="material-symbols-outlined text-slate-500">arrow_back</span>
 </button>
 <h1 class="font-['Plus_Jakarta_Sans'] headline-lg tracking-tighter text-violet-700 dark:text-violet-300">Nisa</h1>
 </div>
 <div class="flex items-center gap-2">
-<button class="hover:opacity-80 transition-opacity active:scale-95 transition-transform duration-200">
+<button class="hover:opacity-80 transition-opacity active:scale-95 duration-200">
 <span class="material-symbols-outlined text-slate-500">more_vert</span>
 </button>
 </div>
@@ -127,30 +133,42 @@
 <h2 class="text-3xl font-extrabold tracking-tight text-on-surface mb-2">Form HM</h2>
 <p class="text-on-surface-variant/70 body-lg">Submit your daily equipment performance records with precision.</p>
 </section>
-<!-- Form Layout: Tonal Architecture -->
-<div class="space-y-10">
+<!-- Form Layout -->
+<form class="space-y-10" id="hm-form" novalidate="">
 <!-- Group 1: Time & Identity -->
 <div class="space-y-6">
 <div class="flex flex-col">
 <label class="label-sm uppercase tracking-widest text-on-surface-variant mb-1">Tanggal</label>
-<input class="ethereal-input text-lg font-medium" type="date" value="2023-10-24"/>
+<input class="ethereal-input text-lg font-medium required-field" name="tanggal" type="date" value="2023-10-24"/>
 </div>
 <div class="grid grid-cols-2 gap-6">
 <div class="flex flex-col">
 <label class="label-sm uppercase tracking-widest text-on-surface-variant mb-1">Shift</label>
-<select class="ethereal-input text-lg font-medium bg-transparent"><option>Malam</option><option>Siang</option></select>
+<select class="ethereal-input text-lg font-medium bg-transparent required-field" name="shift">
+<option value="">Select Shift</option>
+<option selected="">Malam</option>
+<option>Siang</option>
+</select>
 </div>
 <div class="flex flex-col">
 <label class="label-sm uppercase tracking-widest text-on-surface-variant mb-1">Kategori</label>
-<select class="ethereal-input text-lg font-medium bg-transparent"><option>Barging</option><option>Langsir</option><option>Triming</option><option>General</option></select>
+<select class="ethereal-input text-lg font-medium bg-transparent required-field" name="kategori">
+<option value="">Select Kategori</option>
+<option selected="">Barging</option>
+<option>Langsir</option>
+<option>Triming</option>
+<option>General</option>
+</select>
 </div>
 </div>
 </div>
-<!-- Asymmetric Bento-style Card for Key Stats -->
-<div class="bg-surface-container-low rounded-[2rem] p-6 space-y-8"><div class="flex flex-col mb-8">
+<!-- Asymmetric Bento-style Card -->
+<div class="bg-surface-container-low rounded-[2rem] p-6 space-y-8">
+<div class="flex flex-col mb-8">
 <label class="label-sm uppercase tracking-widest text-on-surface-variant mb-1">User</label>
-<select class="ethereal-input text-lg font-medium bg-transparent">
-<option>BBA</option>
+<select class="ethereal-input text-lg font-medium bg-transparent required-field" name="user">
+<option value="">Select User</option>
+<option selected="">BBA</option>
 <option>BC</option>
 <option>SEN</option>
 <option>DTJ</option>
@@ -158,13 +176,14 @@
 </div>
 <div class="flex flex-col">
 <label class="label-sm uppercase tracking-widest text-on-surface-variant mb-1">Pekerjaan</label>
-<input class="ethereal-input text-lg font-medium placeholder:opacity-30" placeholder="e.g. Hauling Activity" type="text"/>
+<input class="ethereal-input text-lg font-medium placeholder:opacity-30 required-field" name="pekerjaan" placeholder="e.g. Hauling Activity" type="text"/>
 </div>
 <div class="grid grid-cols-2 gap-8">
 <div class="flex flex-col">
 <label class="label-sm uppercase tracking-widest text-on-surface-variant mb-1">Code Unit</label>
-<select class="ethereal-input text-lg font-bold bg-transparent">
-<option>SWA-101</option>
+<select class="ethereal-input text-lg font-bold bg-transparent required-field" name="code_unit">
+<option value="">Unit</option>
+<option selected="">SWA-101</option>
 <option>SWA-102</option>
 <option>SBC-103</option>
 <option>SPC-104</option>
@@ -172,77 +191,187 @@
 </div>
 <div class="flex flex-col">
 <label class="label-sm uppercase tracking-widest text-on-surface-variant mb-1">Nama</label>
-<select class="ethereal-input text-lg font-medium bg-transparent">
-<option>Dede Hermawan</option>
+<select class="ethereal-input text-lg font-medium bg-transparent required-field" name="nama">
+<option value="">Select Name</option>
+<option selected="">Dede Hermawan</option>
 <option>Suntoko</option>
 <option>Hengky</option>
 </select>
 </div>
 </div>
 </div>
-<!-- HM Readings: High Contrast Section -->
+<!-- HM Readings -->
 <div class="space-y-6">
 <div class="grid grid-cols-2 gap-6">
-<div class="bg-surface-container-lowest p-5 rounded-2xl shadow-[0px_20px_40px_rgba(26,28,28,0.02)]">
+<div class="bg-surface-container-lowest p-5 rounded-2xl shadow-[0px_20px_40px_rgba(26,28,28,0.02)] border border-outline-variant/10">
 <label class="label-sm uppercase tracking-widest text-primary mb-2 block">HM Awal</label>
-<input class="w-full bg-transparent text-2xl font-bold border-none p-0 focus:ring-0" id="hm-awal" placeholder="0.0" step="0.1" type="number"/>
+<input class="w-full bg-transparent text-2xl font-bold border-none p-0 focus:ring-0 required-field" id="hm-awal" name="hm_awal" placeholder="0.0" step="0.1" type="number"/>
 </div>
-<div class="bg-surface-container-lowest p-5 rounded-2xl shadow-[0px_20px_40px_rgba(26,28,28,0.02)]">
+<div class="bg-surface-container-lowest p-5 rounded-2xl shadow-[0px_20px_40px_rgba(26,28,28,0.02)] border border-outline-variant/10">
 <label class="label-sm uppercase tracking-widest text-primary mb-2 block">HM Akhir</label>
-<input class="w-full bg-transparent text-2xl font-bold border-none p-0 focus:ring-0" id="hm-akhir" oninput="this.setCustomValidity(parseFloat(this.value) &lt;= parseFloat(document.getElementById('hm-awal').value) ? 'HM Akhir must be greater than HM Awal' : '')" placeholder="0.0" step="0.1" type="number"/>
+<input class="w-full bg-transparent text-2xl font-bold border-none p-0 focus:ring-0 required-field" id="hm-akhir" name="hm_akhir" placeholder="0.0" step="0.1" type="number"/>
 </div>
 </div>
 <div class="flex flex-col">
 <label class="label-sm uppercase tracking-widest text-on-surface-variant mb-1">Fuel (Liters)</label>
-<input class="ethereal-input text-lg font-medium placeholder:opacity-30" placeholder="Total fuel consumed" type="number"/>
+<input class="ethereal-input text-lg font-medium placeholder:opacity-30 required-field" name="fuel" placeholder="Total fuel consumed" type="number"/>
 </div>
 </div>
-<!-- Media Section -->
+<!-- Media Section: File Input Styling -->
 <div class="space-y-4">
 <label class="label-sm uppercase tracking-widest text-on-surface-variant">Foto P2H</label>
-<div class="relative group h-48 w-full rounded-[2rem] overflow-hidden bg-surface-container-highest flex items-center justify-center border-2 border-dashed border-outline-variant/30">
-<div class="text-center z-10">
+<label class="relative group h-48 w-full rounded-[2rem] overflow-hidden bg-surface-container-highest flex flex-col items-center justify-center border-2 border-dashed border-outline-variant/30 cursor-pointer hover:border-primary/50 transition-colors">
+<input accept="image/*" class="hidden" id="p2h-upload" type="file"/>
+<div class="text-center z-10 p-4 pointer-events-none" id="upload-placeholder">
 <span class="material-symbols-outlined text-primary text-4xl mb-2">add_a_photo</span>
 <p class="label-sm uppercase tracking-widest text-on-surface-variant">Capture Equipment Condition</p>
+<p class="text-[0.6rem] text-on-surface-variant/60 mt-1">Tap to open gallery or camera</p>
 </div>
-<img alt="Equipment inspection" class="absolute inset-0 w-full h-full object-cover opacity-20 grayscale" data-alt="Close up of heavy machinery engine parts with industrial lighting and metallic textures in a professional workshop" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNKrUI-tFq___WsBox12XQ1ulvtS8KhE5GTf8JOtaiyPFRKvHxY4RH5TRtPpbjCXaZ8nG3Y49JCJfACS7bQo_GIKcgyBTYj7AOeiLOQ6-g0MwW3FRGImQTcaOYjWm1HUKiC8vbGws1TJijOzX_K0MCWXSm799VU_YFsx8y1u3L6s7eCHj-Fyr2juhUfuD6yDow7t0Td5tXoTM5tBTLlOKXhQLjVz0YdHs5c3iCgH9TrIUEKXBZh9EYh8BDMYHBG7uI6tY6O2Hb7K5D"/>
-</div>
-</div>
-<!-- User Verification -->
-<div class="flex items-center gap-4 p-4 bg-secondary-container/20 rounded-full">
-<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center">
-<span class="material-symbols-outlined text-on-secondary-container">person</span>
-</div>
-<div>
-<p class="label-sm uppercase tracking-widest text-on-secondary-container">Logged in as</p>
-<p class="font-bold text-on-surface">Alex Thompson</p>
+<div class="absolute inset-0 w-full h-full hidden bg-black" id="image-preview">
+<img alt="Preview" class="w-full h-full object-cover" id="preview-img"/>
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-white text-3xl">edit</span>
 </div>
 </div>
-<!-- Primary CTA -->
-<button class="w-full h-16 rounded-full bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold text-lg shadow-xl shadow-primary/20 active:scale-95 transition-all duration-300">
-                Submit Form HM
-            </button>
+</label>
 </div>
+<!-- Primary CTA and Alert -->
+<div class="space-y-4 pt-4">
+<div class="hidden p-4 rounded-xl bg-error-container text-on-error-container flex items-start gap-3 border border-error/20" id="validation-alert">
+<span class="material-symbols-outlined text-error">error</span>
+<p class="text-sm font-medium leading-tight" id="alert-message"></p>
+</div>
+<button class="w-full h-16 rounded-full bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold text-lg shadow-xl shadow-primary/20 active:scale-95 transition-all duration-300 flex items-center justify-center gap-3" id="submit-btn" type="submit">
+<span id="btn-text">Submit Form HM</span>
+<div class="loading-spinner hidden" id="btn-loader"></div>
+</button>
+</div>
+</form>
 </main>
 <!-- BottomNavBar -->
 <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-8 pt-4 bg-surface/80 dark:bg-slate-900/80 backdrop-blur-xl">
-<div class="fixed bottom-6 left-6 right-6 rounded-[24px] bg-surface/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-[0px_20px_40px_rgba(26,28,28,0.04)] flex justify-around items-center h-16">
-<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 p-2 hover:text-violet-600 dark:hover:text-violet-300 active:scale-90 transition-all duration-300" href="#">
+<div class="fixed bottom-6 left-6 right-6 rounded-[24px] bg-surface/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-[0px_20px_40px_rgba(26,28,28,0.04)] flex justify-around items-center h-16 border border-white/10">
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 p-2 hover:text-violet-600 active:scale-90 transition-all duration-300" href="#">
 <span class="material-symbols-outlined">home</span>
 <span class="font-['Plus_Jakarta_Sans'] label-sm uppercase tracking-widest">Home</span>
 </a>
-<a class="flex flex-col items-center justify-center bg-[#4af8e3] text-[#1a1c1c] rounded-full px-5 py-2 transition-all active:scale-90 transition-all duration-300" href="#">
+<a class="flex flex-col items-center justify-center bg-[#4af8e3] text-[#1a1c1c] rounded-full px-5 py-2 transition-all active:scale-90 duration-300 shadow-sm" href="#">
 <span class="material-symbols-outlined">edit_note</span>
 <span class="font-['Plus_Jakarta_Sans'] label-sm uppercase tracking-widest">Forms</span>
 </a>
-<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 p-2 hover:text-violet-600 dark:hover:text-violet-300 active:scale-90 transition-all duration-300" href="#">
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 p-2 hover:text-violet-600 active:scale-90 transition-all duration-300" href="#">
 <span class="material-symbols-outlined">history</span>
 <span class="font-['Plus_Jakarta_Sans'] label-sm uppercase tracking-widest">Records</span>
 </a>
-<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 p-2 hover:text-violet-600 dark:hover:text-violet-300 active:scale-90 transition-all duration-300" href="#">
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 p-2 hover:text-violet-600 active:scale-90 transition-all duration-300" href="#">
 <span class="material-symbols-outlined">person</span>
 <span class="font-['Plus_Jakarta_Sans'] label-sm uppercase tracking-widest">Profile</span>
 </a>
 </div>
 </nav>
+<script>
+    const form = document.getElementById('hm-form');
+    const hmAwal = document.getElementById('hm-awal');
+    const hmAkhir = document.getElementById('hm-akhir');
+    const alertBox = document.getElementById('validation-alert');
+    const alertMsg = document.getElementById('alert-message');
+    const submitBtn = document.getElementById('submit-btn');
+    const btnText = document.getElementById('btn-text');
+    const btnLoader = document.getElementById('btn-loader');
+    const fileInput = document.getElementById('p2h-upload');
+    const imagePreview = document.getElementById('image-preview');
+    const previewImg = document.getElementById('preview-img');
+    const uploadPlaceholder = document.getElementById('upload-placeholder');
+
+    // Handle Image Preview
+    fileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                previewImg.src = event.target.result;
+                imagePreview.classList.remove('hidden');
+                uploadPlaceholder.classList.add('hidden');
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // Reset Alert
+        alertBox.classList.add('hidden');
+        let isValid = true;
+        let errorMessage = "";
+
+        // 1. Check empty fields
+        const inputs = form.querySelectorAll('.required-field');
+        inputs.forEach(input => {
+            if (!input.value || input.value.trim() === "") {
+                isValid = false;
+                input.parentElement.classList.add('border-error');
+            } else {
+                input.parentElement.classList.remove('border-error');
+            }
+        });
+
+        if (!isValid) {
+            errorMessage = "All fields are required. Please check your entries.";
+        } else {
+            // 2. HM Validation
+            const valAwal = parseFloat(hmAwal.value);
+            const valAkhir = parseFloat(hmAkhir.value);
+
+            if (valAkhir <= valAwal) {
+                isValid = false;
+                errorMessage = "HM Akhir must be greater than HM Awal.";
+                hmAkhir.parentElement.classList.add('border-error');
+            } else {
+                hmAkhir.parentElement.classList.remove('border-error');
+            }
+        }
+
+        if (!isValid) {
+            alertMsg.innerText = errorMessage;
+            alertBox.classList.remove('hidden');
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            return;
+        }
+
+        // Mock Submission (n8n Integration)
+        setLoading(true);
+
+        try {
+            // Simulated network delay
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            // Mocking success
+            console.log("Form Data Sent to n8n:", new FormData(form));
+            alert('Success! Form submitted successfully.');
+            form.reset();
+            imagePreview.classList.add('hidden');
+            uploadPlaceholder.classList.remove('hidden');
+        } catch (error) {
+            alertMsg.innerText = "Connection error. Please try again.";
+            alertBox.classList.remove('hidden');
+        } finally {
+            setLoading(false);
+        }
+    });
+
+    function setLoading(isLoading) {
+        if (isLoading) {
+            submitBtn.disabled = true;
+            btnText.classList.add('hidden');
+            btnLoader.classList.remove('hidden');
+            submitBtn.classList.add('opacity-80');
+        } else {
+            submitBtn.disabled = false;
+            btnText.classList.remove('hidden');
+            btnLoader.classList.add('hidden');
+            submitBtn.classList.remove('opacity-80');
+        }
+    }
+</script>
 </body></html>
