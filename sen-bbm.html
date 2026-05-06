@@ -249,6 +249,19 @@
         input[type="number"] {
             -moz-appearance: textfield;
         }
+
+        .other-input {
+            margin-top: 8px;
+            display: none;
+        }
+
+        .other-input.visible {
+            display: block;
+        }
+
+        .other-input input {
+            border-style: dashed;
+        }
     </style>
 </head>
 <body>
@@ -284,7 +297,16 @@
                     <option value="">Select an option ...</option>
                     <option value="Wheeloader">Wheeloader</option>
                     <option value="Excavator">Excavator</option>
+                    <option value="Buldozer">Buldozer</option>
+                    <option value="General">General</option>
+                    <option value="Sarana">Sarana</option>
+                    <option value="Dumptruck">Dumptruck</option>
+                    <option value="Lainnya">Lainnya</option>
+
                 </select>
+                <div class="other-input" id="kategoriUnitOther">
+                    <input type="text" id="kategoriUnitText" name="kategoriUnitText" placeholder="Masukkan Kategori Unit lainnya...">
+                </div>
                 <div class="error-message" id="kategoriUnit-error">This field is required</div>
             </div>
 
@@ -294,7 +316,22 @@
                     <option value="">Select an option ...</option>
                     <option value="SWA-101">SWA-101</option>
                     <option value="SWA-102">SWA-102</option>
+                    <option value="SBD-103">SBD-103</option>
+                    <option value="SPC-104">SPC-104</option>
+                    <option value="SGN-01">SGN-01</option>
+                    <option value="SGN-02">SGN-02</option>
+                    <option value="SGN-03">SGN-03</option>
+                    <option value="SLV-100">SLV-100</option>
+                    <option value="SLV-101">SLV-101</option>
+                    <option value="SLV-102">SLV-102</option>
+                    <option value="ELF">ELF</option>
+                    <option value="Lainnya">Lainnya</option>
+                    
+
                 </select>
+                <div class="other-input" id="kodeUnitOther">
+                    <input type="text" id="kodeUnitText" name="kodeUnitText" placeholder="Masukkan Kode Unit lainnya...">
+                </div>
                 <div class="error-message" id="kodeUnit-error">This field is required</div>
             </div>
 
@@ -308,10 +345,24 @@
                 <label>Operator<span class="required">*</span></label>
                 <select id="operator" name="operator" required>
                     <option value="">Select an option ...</option>
-                    <option value="Khairul">Khairul</option>
-                    <option value="Johan">Johan</option>
-                    <option value="Dede">Dede</option>
+                    <option value="Hairul">Hairul</option>
+                    <option value="Dede Darmawan">Dede Darmawan</option>
+                    <option value="Jhohan">Jhohan</option>
+                    <option value="Suntoko">Suntoko</option>
+                    <option value="Hengki Ramadan">Hengki Ramadan</option>
+                    <option value="Miki Mustakim">Miki Mustakim</option>
+                    <option value="Alimuddin">Alimuddin</option>
+                    <option value="Husen">Husen</option>
+                    <option value="Alief">Alief</option>
+                    <option value="SLV-100">SLV-100</option>
+                    <option value="Harun">Harun</option>
+                    <option value="Abdi">Abdi</option>
+                    <option value="Lainnya">Lainnya</option>
+
                 </select>
+                <div class="other-input" id="operatorOther">
+                    <input type="text" id="operatorText" name="operatorText" placeholder="Masukkan nama Operator lainnya...">
+                </div>
                 <div class="error-message" id="operator-error">This field is required</div>
             </div>
 
@@ -397,6 +448,35 @@
         const errorMessage = document.getElementById('errorMessage');
         const originalBtnText = submitBtn.textContent;
 
+        // Handle "Lainnya" option toggles
+        function setupOtherToggle(selectId, otherInputId) {
+            const select = document.getElementById(selectId);
+            const otherInput = document.getElementById(otherInputId);
+
+            select.addEventListener('change', function() {
+                if (this.value === 'Lainnya') {
+                    otherInput.classList.add('visible');
+                } else {
+                    otherInput.classList.remove('visible');
+                }
+            });
+        }
+
+        setupOtherToggle('kategoriUnit', 'kategoriUnitOther');
+        setupOtherToggle('kodeUnit', 'kodeUnitOther');
+        setupOtherToggle('operator', 'operatorOther');
+
+        // Get actual value (check if "Lainnya" was selected)
+        function getActualValue(selectId, textInputId) {
+            const select = document.getElementById(selectId);
+            const textInput = document.getElementById(textInputId);
+
+            if (select.value === 'Lainnya' && textInput && textInput.value.trim() !== '') {
+                return textInput.value.trim();
+            }
+            return select.value;
+        }
+
         function hideMessages() {
             successMessage.classList.remove('visible');
             errorMessage.classList.remove('visible');
@@ -429,12 +509,19 @@
             });
 
             if (isValid) {
-                // Collect form data
-                const formData = new FormData(form);
+                // Collect form data with "Lainnya" handling
                 const data = {};
-                formData.forEach((value, key) => {
-                    data[key] = value;
-                });
+
+                // Handle fields with "Lainnya" option
+                data.tanggal = document.getElementById('tanggal').value;
+                data.shift = document.getElementById('shift').value;
+                data.jam = document.getElementById('jam').value;
+                data.kategoriUnit = getActualValue('kategoriUnit', 'kategoriUnitText');
+                data.kodeUnit = getActualValue('kodeUnit', 'kodeUnitText');
+                data.hm = document.getElementById('hm').value;
+                data.operator = getActualValue('operator', 'operatorText');
+                data.fuelman = document.getElementById('fuelman').value;
+                data.literKeluar = document.getElementById('literKeluar').value;
 
                 // Add timestamp
                 data.submittedAt = new Date().toISOString();
@@ -442,7 +529,7 @@
                 showLoading();
 
                 try {
-                    const response = await fetch('https://n8n.srv920832.hstgr.cloud/webhook-test/8700bbd8-7333-4d2f-85e7-773888dcff2f', {
+                    const response = await fetch('https://n8n.srv920832.hstgr.cloud/webhook/8700bbd8-7333-4d2f-85e7-773888dcff2f', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -454,6 +541,10 @@
                         successMessage.classList.add('visible');
                         // Reset form
                         form.reset();
+                        // Hide all "Lainnya" inputs
+                        document.getElementById('kategoriUnitOther').classList.remove('visible');
+                        document.getElementById('kodeUnitOther').classList.remove('visible');
+                        document.getElementById('operatorOther').classList.remove('visible');
                         // Set default date and time again
                         const now = new Date();
                         const y = now.getFullYear();
